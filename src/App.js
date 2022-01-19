@@ -3,6 +3,11 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [pokemon, setPokemon] = useState({});
+  const [currentPokemonId, setCurrentPokemonId] = useState(1);
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
 
   const fetchPokemon = (id) => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -10,12 +15,9 @@ function App() {
       .then((data) => setPokemon(data));
   };
 
-  const getRandomInt = (min = 1, max = 500) => {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
-
   useEffect(() => {
     console.log({ pokemon });
+    setCurrentPokemonId(pokemon.id);
   }, [pokemon]);
 
   return (
@@ -23,27 +25,42 @@ function App() {
       <header className="App-header">
         <div className="flex-container">
           <img
-            src={pokemon?.sprites?.back_default}
+            src={
+              pokemon?.sprites?.front_default ??
+              "https://pngimg.com/uploads/pokeball/pokeball_PNG20.png"
+            }
             className="poke-image"
             alt="logo"
           />
           <img
-            src={pokemon?.sprites?.front_default}
+            src={
+              pokemon?.sprites?.back_default ??
+              "https://webstockreview.net/images/pokeball-clipart-pdf-16.png"
+            }
             className="poke-image"
             alt="logo"
           />
         </div>
-        <p>{pokemon.name ?? "NO POKEMON SELECTED"}</p>
-        <p>{pokemon.id ?? "NO POKEMON SELECTED"}</p>
-        <div className="flex-cotainer">
-          <button className="button">Back</button>
+        <p className="poke-title">{pokemon.name} </p>
+        <div className="flex-container">
           <button
             className="button"
-            onClick={() => fetchPokemon(getRandomInt())}
+            onClick={() => fetchPokemon(currentPokemonId - 1)}
+          >
+            Back
+          </button>
+          <button
+            className="button"
+            onClick={() => fetchPokemon(getRandomInt(1, 500))}
           >
             Random
           </button>
-          <button className="button">Next</button>
+          <button
+            className="button"
+            onClick={() => fetchPokemon(currentPokemonId + 1)}
+          >
+            Next
+          </button>
         </div>
       </header>
     </div>
