@@ -2,9 +2,28 @@
   text-align: center;
 }
 
-.App-logo {
+.flex-cotainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.poke-image {
   height: 40vmin;
   pointer-events: none;
+}
+.button {
+  margin: 5px;
+  cursor: pointer;
+  width: 15vw;
+  height: 5vh;
+  background-color: #41729f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.App-logo {
 }
 
 @media (prefers-reduced-motion: no-preference) {
